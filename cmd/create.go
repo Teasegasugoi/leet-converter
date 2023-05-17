@@ -41,6 +41,12 @@ var leetTable = map[string]string{
 	"Z": "2",
 }
 
+// Used for flags
+var (
+	min int
+	max int
+)
+
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",
@@ -56,6 +62,12 @@ to quickly create a Cobra application.`,
 			return fmt.Errorf("missing argument")
 		} else if len(args) > 1 {
 			return fmt.Errorf("too many arguments")
+		} else if max < 1 || min < 1 {
+			return fmt.Errorf("min and max must be greater than 0")
+		} else if max < min {
+			return fmt.Errorf("max must be greater than min")
+		} else if len(args[0]) < min {
+			return fmt.Errorf("min must be smaller than arg's length")
 		}
 		create(args[0])
 		return nil
@@ -64,9 +76,14 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(createCmd)
+
+	createCmd.Flags().IntVarP(&min, "min", "m", 1, "min")
+	createCmd.Flags().IntVarP(&max, "max", "M", 100, "max")
 }
 
 func create(name string) {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+
 	// 変換できる箇所を探す
 	var c []int
 	for i := 0; i < len(name); i++ {
@@ -74,20 +91,23 @@ func create(name string) {
 			c = append(c, i)
 		}
 	}
-	// 変更する文字数設定
-	var num int
-	if len(c) > 5 {
-		num = 5
-	} else {
-		num = len(c)
-	}
+
 	// shuffle slice
-	rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := len(c); i > 0; i-- {
 		j := rand.Intn(i)
 		c[i-1], c[j] = c[j], c[i-1]
 	}
-	c = c[:num]
+
+	// 変更する文字数設定
+	var n int
+	if max > len(c) {
+		max = len(c)
+	}
+	if min > len(c) {
+		min = len(c)
+	}
+	n = rand.Intn(max-min+1) + min
+	c = c[:n]
 
 	// Convert to Leet
 	s := strings.Split(name, "")
