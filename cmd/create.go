@@ -39,6 +39,32 @@ var leetTable = map[string]string{
 	"X": "",
 	"Y": "",
 	"Z": "2",
+	"a": "4",
+	"b": "",
+	"c": "",
+	"d": "",
+	"e": "3",
+	"f": "",
+	"g": "6",
+	"h": "",
+	"i": "1",
+	"j": "",
+	"k": "",
+	"l": "1",
+	"m": "",
+	"n": "",
+	"o": "0",
+	"p": "9",
+	"q": "",
+	"r": "",
+	"s": "5",
+	"t": "7",
+	"u": "",
+	"v": "",
+	"w": "",
+	"x": "",
+	"y": "",
+	"z": "2",
 }
 
 // Used for flags
@@ -86,8 +112,9 @@ func create(name string) {
 
 	// 変換できる箇所を探す
 	var c []int
-	for i := 0; i < len(name); i++ {
-		if l := leetTable[string(name[i])]; l != "" {
+	l := strings.ToLower(name)
+	for i := 0; i < len(l); i++ {
+		if l := leetTable[string(l[i])]; l != "" {
 			c = append(c, i)
 		}
 	}
@@ -110,7 +137,7 @@ func create(name string) {
 	// Convert to Leet
 	s := strings.Split(name, "")
 	for i := 0; i < len(c); i++ {
-		s[c[i]] = leetTable[string(name[c[i]])]
+		s[c[i]] = leetTable[string(l[c[i]])]
 	}
 
 	fmt.Println(strings.Join(s, ""))
