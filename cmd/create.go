@@ -82,7 +82,7 @@ func init() {
 }
 
 func create(name string) {
-	rand.New(rand.NewSource(time.Now().UnixNano()))
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	// 変換できる箇所を探す
 	var c []int
@@ -93,10 +93,9 @@ func create(name string) {
 	}
 
 	// shuffle slice
-	for i := len(c); i > 0; i-- {
-		j := rand.Intn(i)
-		c[i-1], c[j] = c[j], c[i-1]
-	}
+	r.Shuffle(len(c), func(i, j int) {
+		c[i], c[j] = c[j], c[i]
+	})
 
 	// 変更する文字数設定
 	var n int
@@ -106,7 +105,7 @@ func create(name string) {
 	if min > len(c) {
 		min = len(c)
 	}
-	n = rand.Intn(max-min+1) + min
+	n = r.Intn(max-min+1) + min
 	c = c[:n]
 
 	// Convert to Leet
