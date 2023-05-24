@@ -98,14 +98,13 @@ func create(name string) {
 	})
 
 	// 変更する文字数設定
-	var n int
 	if max > len(c) {
 		max = len(c)
 	}
 	if min > len(c) {
 		min = len(c)
 	}
-	n = r.Intn(max-min+1) + min
+	var n int = r.Intn(max-min+1) + min
 	c = c[:n]
 
 	// Convert to Leet
