@@ -4,68 +4,18 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
 )
 
-var leetTable = map[string]string{
-	"A": "4",
-	"B": "",
-	"C": "",
-	"D": "",
-	"E": "3",
-	"F": "",
-	"G": "6",
-	"H": "",
-	"I": "1",
-	"J": "",
-	"K": "",
-	"L": "1",
-	"M": "",
-	"N": "",
-	"O": "0",
-	"P": "9",
-	"Q": "",
-	"R": "",
-	"S": "5",
-	"T": "7",
-	"U": "",
-	"V": "",
-	"W": "",
-	"X": "",
-	"Y": "",
-	"Z": "2",
-	"a": "4",
-	"b": "",
-	"c": "",
-	"d": "",
-	"e": "3",
-	"f": "",
-	"g": "6",
-	"h": "",
-	"i": "1",
-	"j": "",
-	"k": "",
-	"l": "1",
-	"m": "",
-	"n": "",
-	"o": "0",
-	"p": "9",
-	"q": "",
-	"r": "",
-	"s": "5",
-	"t": "7",
-	"u": "",
-	"v": "",
-	"w": "",
-	"x": "",
-	"y": "",
-	"z": "2",
-}
+var leetTable map[string]string
 
 // Used for flags
 var (
@@ -105,6 +55,17 @@ func init() {
 
 	createCmd.Flags().IntVarP(&min, "min", "m", 1, "min")
 	createCmd.Flags().IntVarP(&max, "max", "M", 100, "max")
+
+	// JSONファイルの読み込み
+	file, err := os.ReadFile("leet_table.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = json.Unmarshal(file, &leetTable)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
 
 func create(name string) {
