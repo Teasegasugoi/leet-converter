@@ -21,6 +21,7 @@ var leetTable map[string]string
 var (
 	min int
 	max int
+	num int
 )
 
 // createCmd represents the create command
@@ -44,8 +45,12 @@ to quickly create a Cobra application.`,
 			return fmt.Errorf("max must be greater than min")
 		} else if len(args[0]) < min {
 			return fmt.Errorf("min must be smaller than arg's length")
+		} else if num < 1 {
+			return fmt.Errorf("num must be greater than 0")
 		}
-		create(args[0])
+		for i := 0; i < num; i++ {
+			create(args[0])
+		}
 		return nil
 	},
 }
@@ -55,6 +60,7 @@ func init() {
 
 	createCmd.Flags().IntVarP(&min, "min", "m", 1, "min")
 	createCmd.Flags().IntVarP(&max, "max", "M", 100, "max")
+	createCmd.Flags().IntVarP(&num, "num", "n", 1, "num")
 
 	// JSONファイルの読み込み
 	file, err := os.ReadFile("leet_table.json")
