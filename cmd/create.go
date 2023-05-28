@@ -27,13 +27,7 @@ var (
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Convert the input text to leet",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 0 {
 			return fmt.Errorf("missing argument")
@@ -58,9 +52,9 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(createCmd)
 
-	createCmd.Flags().IntVarP(&min, "min", "m", 1, "min")
-	createCmd.Flags().IntVarP(&max, "max", "M", 100, "max")
-	createCmd.Flags().IntVarP(&num, "num", "n", 1, "num")
+	createCmd.Flags().IntVarP(&min, "min", "m", 1, "Minimum number of characters to convert")
+	createCmd.Flags().IntVarP(&max, "max", "M", 100, "Maximum number of characters to convert")
+	createCmd.Flags().IntVarP(&num, "num", "n", 1, "Number generated at a time")
 
 	// JSONファイルの読み込み
 	file, err := os.ReadFile("leet_table.json")
