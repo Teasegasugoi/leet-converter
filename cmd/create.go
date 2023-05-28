@@ -15,7 +15,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var leetTable map[string]string
+var leetTable map[string][]string
 
 // Used for flags
 var (
@@ -71,7 +71,6 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }
 
 func create(name string) {
@@ -79,9 +78,9 @@ func create(name string) {
 
 	// 変換できる箇所を探す
 	var c []int
-	l := strings.ToLower(name)
-	for i := 0; i < len(l); i++ {
-		if l := leetTable[string(l[i])]; l != "" {
+	lowName := strings.ToLower(name)
+	for i := 0; i < len(lowName); i++ {
+		if l, ok := leetTable[string(lowName[i])]; ok && len(l) > 0 {
 			c = append(c, i)
 		}
 	}
@@ -104,7 +103,8 @@ func create(name string) {
 	// Convert to Leet
 	s := strings.Split(name, "")
 	for i := 0; i < len(c); i++ {
-		s[c[i]] = leetTable[string(l[c[i]])]
+		rn := r.Intn(len(leetTable[string(lowName[c[i]])]))
+		s[c[i]] = leetTable[string(lowName[c[i]])][rn]
 	}
 
 	fmt.Println(strings.Join(s, ""))
