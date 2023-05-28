@@ -11,9 +11,9 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "leet-generator",
+	Use:   "leet-converter",
 	Short: "Convert string to Leet",
-	Long:  `leet-generator is a CLI application that converts string to leet.`,
+	Long:  `leet-converter is a CLI application that converts string to leet.`,
 }
 
 func Execute() {
